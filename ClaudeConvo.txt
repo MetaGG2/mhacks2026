@@ -1,0 +1,68 @@
+we want to create a browser add on that uses ai to summarizes a pages main ideas when loading in. it will pop up in the right hand corner of the screen and give a summary about what's in the page, useful links, and main sections, etc. a user will be able to click on parts of the summary and it will bring the user down to that section of the page. this is intended to save users a few seconds of scrolling and looking around a website for a certain part they are looking for. Make a plan for implementing and designing this model and also make a script that does this
+
+I've built a working Chrome extension (Manifest V3), called PageGist for now, and zipped it up. To try it, unzip, open chrome://extensions, turn on Developer mode, click Load unpacked, and pick the folder. Then paste an Anthropic API key in the extension's options page. I haven't run it in a browser yet, so expect to fix small things on first load.
+
+How it works
+Content script (content.js) runs when the page finishes loading. It finds the main content (main, article, or body), pulls out the visible text, the h1–h3 headings, and up to 30 links. It tags each heading with a hidden ID so it can scroll back to it later.
+Background worker (background.js) holds the API key and sends the page text, headings, and links to Claude Haiku 4.5. The model must return JSON only: a summary, key points, sections (each tied to a heading ID), and useful links. Results are cached per URL for the session, so reloads cost nothing.
+Panel UI is a top-right card inside a shadow DOM, so the host site's CSS can't break it. It has collapse and close buttons, follows light and dark mode, and the toolbar icon toggles it.
+Click to jump scrolls to the matching heading and flashes a yellow highlight.
+
+Two safeguards are built in. The model can only point to heading IDs and link URLs that were actually on the page, and anything else it returns is dropped. The prompt also tells it to treat page text as untrusted, so a page can't hijack the summary.
+
+Design choices
+Panel contents: a 2–3 sentence summary, up to four key points, up to six jump-to sections with one-line blurbs, and up to five links.
+Speed: a loading spinner appears immediately. Pages with under 500 characters of text are skipped.
+Dismissal: closing or collapsing it should be one click, because a pop-up on every page is the fastest way to get uninstalled.
+Next steps
+Hackathon demo: load it unpacked, test on 5–10 varied sites (news, docs, Wikipedia, a store page), and tune the prompt.
+Before sharing it: don't ship users' API keys. Put a small backend proxy between the extension and the API so you hold the key, add rate limits, and add a privacy policy, since page text leaves the browser.
+Speed: stream the response so the summary appears as it's written, and consider on-page-load summaries only for long pages.
+Single-page apps: re-run when the URL changes (it currently only runs on full loads). Also handle pages where content loads late, and sections that have no headings (the model could anchor on paragraphs instead).
+Privacy controls: a per-site blocklist, with banking, email, and logged-in pages off by default, plus an opt-in toggle.
+Firefox/Edge: the code ports with minor manifest changes.
+
+The main decision for you: should it auto-run on every page, or only when the user clicks? The code supports both through a checkbox in settings. Auto-run matches your pitch, but it sends every page you visit to the API, which costs money and raises privacy concerns, so a click-to-summarize default is a safer starting point.
+
+Pagegist
+ZIP 
+
+can you change the model to use the gemini api
+
+I've switched the extension from Anthropic to the Gemini API and rezipped it. I haven't run it against the live API, so test it once with a real key.
+
+background.js: now calls gemini-2.5-flash at Google's generateContent endpoint. The model name is one constant at the top, so you can change it (for example to gemini-2.5-pro) in one line.
+JSON output: it asks Gemini for JSON directly (responseMimeType: "application/json"), so the summary parses reliably. Errors such as a blocked prompt or an empty response now show up in the panel.
+Speed: "thinking" is turned off for Flash, which makes it noticeably faster and cheaper for this task.
+manifest.json: the allowed host is now generativelanguage.googleapis.com instead of Anthropic's.
+Settings and prompts: the options page, the panel's "add your key" message, and the README now say Gemini.
+
+You can get a free API key at aistudio.google.com/apikey. Paste it into the extension's options page after loading the folder unpacked. The key is stored only in the browser. For a public release, the earlier advice still holds: put a small backend proxy in front of Gemini so your key never ships inside the extension.
+
+Pagegist
+ZIP 
+Clarifying which problem needs solving.
+Claude’s response was interrupted.
+
+Couldn't summarize this page.
+Gemini API 503: { "error": { "code": 503, "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later
+
+That error means Google's servers were overloaded when your request arrived. It's a temporary 503 on Google's side, not a bug in your code, but we can make the extension handle it much better. I've made two changes, and the code passes a syntax check but I haven't tested it against the live API.
+
+Fixes
+
+Automatic retry and fallback (worker.js). When Gemini returns a temporary error (503, 429, or a server hiccup), the proxy waits half a second and tries again. If gemini-2.5-flash is still busy, it switches to gemini-2.5-flash-lite, which is lighter and usually less congested. Each model gets two tries, so the worst case adds about 2 seconds.
+Readable errors and a retry button (content.js). If everything is still busy, the panel now says "The AI service is busy right now. Please try again in a moment." instead of dumping raw JSON, and it shows a Try again button. Failed attempts aren't cached, so retrying makes a fresh request.
+
+One thing to check. Your error begins with "Gemini API 503:", which is the wording from the earlier build that called Gemini directly with a key in the options page. The proxy version words its errors differently. So you may still be running the old zip. If so, load the new pagegist.zip and deploy the proxy (README steps) so the fixes apply.
+
+To apply
+
+Redeploy the proxy: wrangler deploy worker.js --name pagegist-proxy --compatibility-date 2025-01-01
+Reload the extension at chrome://extensions.
+
+If it keeps happening
+
+Heavy traffic is usually brief. On the free tier you're also sharing capacity with everyone else, so peak hours can be rough.
+Enabling billing on your Google AI Studio key moves you to a paid tier with higher limits and, in my experience, fewer capacity errors. Check Google's current terms.
+For a demo, load a page once beforehand. Summaries are cached per tab session, so it will open instantly.
