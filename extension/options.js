@@ -7,6 +7,7 @@ import {
 } from "./lib/models.mjs";
 
 const form = document.getElementById("options-form");
+const themeSelect = document.getElementById("theme");
 const modelSelect = document.getElementById("model");
 const geminiKey = document.getElementById("gemini-key");
 const grokKey = document.getElementById("grok-key");
@@ -30,6 +31,16 @@ function optionGroup(label, models) {
 modelSelect.append(optionGroup("Google Gemini", GEMINI_MODELS));
 modelSelect.append(optionGroup("xAI Grok", GROK_MODELS));
 
+function applyPageTheme(theme) {
+  document.documentElement.dataset.theme =
+    theme === "light" || theme === "dark" ? theme : "system";
+}
+
+themeSelect.addEventListener("change", () => {
+  applyPageTheme(themeSelect.value);
+  status.textContent = "";
+});
+
 function syncProviderNote() {
   const provider = providerForModel(modelSelect.value);
   const usesGrok = provider === "grok";
@@ -49,23 +60,30 @@ const storage = globalThis.chrome?.storage?.sync;
 
 if (storage) {
   storage
-    .get(["geminiApiKey", "grokApiKey", "model"])
-    .then(({ geminiApiKey, grokApiKey, model }) => {
+    .get(["geminiApiKey", "grokApiKey", "model", "theme"])
+    .then(({ geminiApiKey, grokApiKey, model, theme }) => {
       if (geminiApiKey) geminiKey.value = geminiApiKey;
       if (grokApiKey) grokKey.value = grokApiKey;
       modelSelect.value = resolveModel(model || DEFAULT_MODEL);
+      themeSelect.value = theme === "light" || theme === "dark" ? theme : "system";
+      applyPageTheme(themeSelect.value);
       syncProviderNote();
     });
 } else {
   modelSelect.value = DEFAULT_MODEL;
+  themeSelect.value = "system";
+  applyPageTheme("system");
   syncProviderNote();
 }
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const model = resolveModel(modelSelect.value);
+  const theme = themeSelect.value === "light" || themeSelect.value === "dark" ? themeSelect.value : "system";
+  applyPageTheme(theme);
   const settings = {
     model,
+    theme,
     geminiApiKey: geminiKey.value.trim(),
     grokApiKey: grokKey.value.trim(),
   };

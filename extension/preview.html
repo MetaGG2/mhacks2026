@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>WebHound overlay preview</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
     <link rel="stylesheet" href="overlay.css" />
     <style>
       body {
@@ -17,14 +17,13 @@
     </style>
   </head>
   <body>
-    <div class="tld-root" id="panel"></div>
+    <div class="tld-root" id="panel" data-theme="system"></div>
     <script>
       const asset = (name) => `assets/${name}`;
       const mode = new URLSearchParams(location.search).get("mode") || "reading";
       const panel = document.getElementById("panel");
 
       const header = (purpose, context) => `
-        <div class="tld-glow" aria-hidden="true"></div>
         <div class="tld-header">
           <div class="tld-bar">
             <div class="tld-brand">
@@ -147,7 +146,7 @@
           <div class="tld-body">
             <section class="tld-section">
               <div class="tld-heading"><div class="tld-accent"></div><span>Summary</span></div>
-              <p class="tld-summary">The article argues that sustained reading builds forms of attention that fast digital media cannot replace. It connects slower, reflective reading with stronger comprehension, memory, and independent judgment—then suggests practical ways to protect the habit.</p>
+              <p class="tld-summary"><button type="button" class="tld-summary-jump" data-jump="tld-section-0">The article argues that sustained reading builds forms of attention that fast digital media cannot replace.</button> <button type="button" class="tld-summary-jump" data-jump="tld-section-1">It connects slower, reflective reading with stronger comprehension, memory, and independent judgment.</button> <button type="button" class="tld-summary-jump" data-jump="tld-section-2">It then suggests practical ways to protect the habit.</button></p>
             </section>
             <hr class="tld-divider">
             <section class="tld-section">
@@ -218,13 +217,19 @@
           </div>
         `;
       }
-
-      panel.addEventListener("mousemove", (event) => {
-        const glow = panel.querySelector(".tld-glow");
-        if (!glow) return;
-        glow.style.left = `${event.clientX}px`;
-        glow.style.top = `${event.clientY}px`;
+      panel.addEventListener("click", (event) => {
+        const jump = event.target.closest("[data-jump]");
+        if (!jump?.dataset.jump) return;
+        document.getElementById(jump.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     </script>
+    <main>
+      <h2 id="tld-section-0" style="margin-top: 110vh">The attention economy</h2>
+      <p>How skimming became the default.</p>
+      <h2 id="tld-section-1" style="margin-top: 80vh">What deep reading does</h2>
+      <p>Cognition, memory, and empathy.</p>
+      <h2 id="tld-section-2" style="margin-top: 80vh">Rebuilding the habit</h2>
+      <p>Four practical routines.</p>
+    </main>
   </body>
 </html>

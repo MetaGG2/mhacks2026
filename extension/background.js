@@ -40,11 +40,6 @@ async function handleAnalyze(payload) {
   return generateStructured({ apiKey, model, ...request });
 }
 
-chrome.action.onClicked.addListener(async (tab) => {
-  if (!tab?.id) return;
-  try {
-    await chrome.tabs.sendMessage(tab.id, { type: "TLD_TOGGLE" });
-  } catch {
-    // Content script not injected (chrome:// pages, etc.)
-  }
+chrome.action.onClicked.addListener(() => {
+  chrome.runtime.openOptionsPage();
 });

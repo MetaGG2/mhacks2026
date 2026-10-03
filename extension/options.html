@@ -4,14 +4,51 @@
     <meta charset="UTF-8" />
     <title>WebHound options</title>
     <style>
-      :root {
+      :root,
+      :root[data-theme="dark"],
+      :root[data-theme="system"] {
         color-scheme: dark;
+        --bg: #0f1410;
+        --card: #121a16;
+        --border: #24312d;
+        --title: #f4f7f4;
+        --muted: #8fa39a;
+        --field: #0f1410;
+        --accent: #315e52;
+        --note: #73a698;
+        --button: #e7efeb;
+      }
+      :root[data-theme="light"] {
+        color-scheme: light;
+        --bg: #f4f7f4;
+        --card: #ffffff;
+        --border: #d5dfd8;
+        --title: #14201c;
+        --muted: #5c736a;
+        --field: #f4f7f4;
+        --accent: #2f6a5c;
+        --note: #246455;
+        --button: #f4f7f4;
+      }
+      @media (prefers-color-scheme: light) {
+        :root[data-theme="system"] {
+          color-scheme: light;
+          --bg: #f4f7f4;
+          --card: #ffffff;
+          --border: #d5dfd8;
+          --title: #14201c;
+          --muted: #5c736a;
+          --field: #f4f7f4;
+          --accent: #2f6a5c;
+          --note: #246455;
+          --button: #f4f7f4;
+        }
       }
       body {
         margin: 0;
         min-height: 100vh;
-        background: #0f1410;
-        color: #f4f7f4;
+        background: var(--bg);
+        color: var(--title);
         font-family: Inter, system-ui, sans-serif;
         display: flex;
         justify-content: center;
@@ -19,8 +56,8 @@
       }
       .card {
         width: min(440px, 100%);
-        background: #121a16;
-        border: 1px solid #24312d;
+        background: var(--card);
+        border: 1px solid var(--border);
         border-radius: 14px;
         padding: 24px;
       }
@@ -29,7 +66,7 @@
         margin: 0 0 8px;
       }
       p {
-        color: #8fa39a;
+        color: var(--muted);
         font-size: 13px;
         line-height: 1.5;
         margin: 0 0 20px;
@@ -40,16 +77,16 @@
         font-weight: 700;
         letter-spacing: 0.8px;
         text-transform: uppercase;
-        color: #8fa39a;
+        color: var(--muted);
         margin-bottom: 8px;
       }
       input,
       select {
         width: 100%;
         box-sizing: border-box;
-        background: #0f1410;
-        border: 1px solid #24312d;
-        color: #f4f7f4;
+        background: var(--field);
+        border: 1px solid var(--border);
+        color: var(--title);
         border-radius: 10px;
         padding: 10px 12px;
         font-size: 13px;
@@ -57,8 +94,8 @@
       }
       select {
         appearance: none;
-        background-image: linear-gradient(45deg, transparent 50%, #8fa39a 50%),
-          linear-gradient(135deg, #8fa39a 50%, transparent 50%);
+        background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+          linear-gradient(135deg, var(--muted) 50%, transparent 50%);
         background-position:
           calc(100% - 18px) 50%,
           calc(100% - 12px) 50%;
@@ -71,18 +108,18 @@
         margin-bottom: 16px;
       }
       .field.active-key input {
-        border-color: #315e52;
+        border-color: var(--accent);
       }
       .note {
         margin: 8px 0 0;
         font-size: 12px;
         line-height: 1.4;
-        color: #73a698;
+        color: var(--note);
       }
       button {
         margin-top: 4px;
-        background: #315e52;
-        color: #e7efeb;
+        background: var(--accent);
+        color: var(--button);
         border: 0;
         border-radius: 999px;
         padding: 10px 16px;
@@ -92,7 +129,7 @@
       .status {
         margin-top: 12px;
         font-size: 12px;
-        color: #73a698;
+        color: var(--note);
         min-height: 16px;
       }
     </style>
@@ -104,6 +141,15 @@
         Pick a Gemini or Grok model. Each provider keeps its own API key. The
         selected model’s key is sent only to that provider.
       </p>
+      <div class="field">
+        <label for="theme">Theme</label>
+        <select id="theme">
+          <option value="system">System default</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+        <p class="note" id="theme-note">System default follows this device.</p>
+      </div>
       <div class="field">
         <label for="model">Model</label>
         <select id="model"></select>

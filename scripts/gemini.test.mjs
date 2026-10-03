@@ -56,6 +56,7 @@ test("readingPrompt includes heading ids", () => {
     text: "Hello world",
   });
   assert.match(prompt, /id=tld-section-0/);
+  assert.match(prompt, /headingId MUST be copied exactly/);
 });
 
 test("listed models are the gemini and grok catalogs", () => {

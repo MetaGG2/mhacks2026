@@ -17,7 +17,7 @@ function injectFonts() {
   link.id = "tld-fonts";
   link.rel = "stylesheet";
   link.href =
-    "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora&display=swap";
+    "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
   document.documentElement.appendChild(link);
 }
 
@@ -33,15 +33,10 @@ async function ensureUi() {
   shadow.appendChild(link);
   const root = document.createElement("div");
   root.className = "tld-root";
+  root.dataset.theme = "system";
   shadow.appendChild(root);
   document.documentElement.appendChild(host);
-
-  shadow.addEventListener("mousemove", (event) => {
-    const glow = shadow.querySelector(".tld-glow");
-    if (!glow) return;
-    glow.style.left = `${event.clientX}px`;
-    glow.style.top = `${event.clientY}px`;
-  });
+  applyStoredTheme();
 
   shadow.addEventListener("click", (event) => {
     const close = event.target.closest("[data-close]");
@@ -67,6 +62,24 @@ function rootEl() {
   return shadow.querySelector(".tld-root");
 }
 
+function applyTheme(theme) {
+  const root = rootEl();
+  if (!root) return;
+  root.dataset.theme = theme === "light" || theme === "dark" ? theme : "system";
+}
+
+function applyStoredTheme() {
+  const storage = globalThis.chrome?.storage?.sync;
+  if (!storage) return;
+  storage.get("theme").then(({ theme }) => applyTheme(theme));
+  if (!applyStoredTheme.listening) {
+    applyStoredTheme.listening = true;
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === "sync" && changes.theme) applyTheme(changes.theme.newValue);
+    });
+  }
+}
+
 function statusPill(label) {
   return `<div class="tld-status"><img src="${ASSET("status-dot.svg")}" width="5" height="5" alt=""><span>${label}</span></div>`;
 }
@@ -87,7 +100,6 @@ function renderShell({ purpose, contextHtml, bodyHtml }) {
   const root = rootEl();
   root.classList.remove("tld-hidden");
   root.innerHTML = `
-    <div class="tld-glow" aria-hidden="true"></div>
     <div class="tld-header">
       <div class="tld-bar">
         <div class="tld-brand">
@@ -220,6 +232,22 @@ function extractSearch() {
   return { query, results };
 }
 
+function summaryHtml(summary) {
+  const parts = Array.isArray(summary)
+    ? summary
+    : typeof summary === "string" && summary
+      ? [{ text: summary, headingId: "" }]
+      : [];
+  const jumps = parts
+    .filter((part) => part?.text)
+    .map((part) => {
+      const headingId = part.headingId ? ` data-jump="${escapeHtml(part.headingId)}"` : "";
+      return `<button type="button" class="tld-summary-jump"${headingId}>${escapeHtml(part.text)}</button>`;
+    })
+    .join(" ");
+  return `<p class="tld-summary">${jumps}</p>`;
+}
+
 function renderReading(data, page) {
   lastMode = "reading";
   const contextHtml = `
@@ -273,7 +301,7 @@ function renderReading(data, page) {
       <div class="tld-body">
         <section class="tld-section">
           ${heading("Summary")}
-          <p class="tld-summary">${escapeHtml(data.summary)}</p>
+          ${summaryHtml(data.summary)}
         </section>
         <hr class="tld-divider">
         <section class="tld-section">
@@ -475,23 +503,6 @@ async function analyze() {
     analyzing = false;
   }
 }
-
-function toggle() {
-  if (!host) {
-    analyze();
-    return;
-  }
-  const root = rootEl();
-  if (root.classList.contains("tld-hidden")) {
-    root.classList.remove("tld-hidden");
-    return;
-  }
-  root.classList.add("tld-hidden");
-}
-
-chrome.runtime.onMessage.addListener((message) => {
-  if (message?.type === "TLD_TOGGLE") toggle();
-});
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => analyze(), { once: true });
