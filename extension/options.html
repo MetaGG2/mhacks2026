@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebHound options</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1410;
+        color: #f4f7f4;
+        font-family: Inter, system-ui, sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 48px 16px;
+      }
+      .card {
+        width: min(440px, 100%);
+        background: #121a16;
+        border: 1px solid #24312d;
+        border-radius: 14px;
+        padding: 24px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 8px;
+      }
+      p {
+        color: #8fa39a;
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 0 0 20px;
+      }
+      label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: #8fa39a;
+        margin-bottom: 8px;
+      }
+      input,
+      select {
+        width: 100%;
+        box-sizing: border-box;
+        background: #0f1410;
+        border: 1px solid #24312d;
+        color: #f4f7f4;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-family: inherit;
+      }
+      select {
+        appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, #8fa39a 50%),
+          linear-gradient(135deg, #8fa39a 50%, transparent 50%);
+        background-position:
+          calc(100% - 18px) 50%,
+          calc(100% - 12px) 50%;
+        background-size:
+          6px 6px,
+          6px 6px;
+        background-repeat: no-repeat;
+      }
+      .field {
+        margin-bottom: 16px;
+      }
+      .field.active-key input {
+        border-color: #315e52;
+      }
+      .note {
+        margin: 8px 0 0;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #73a698;
+      }
+      button {
+        margin-top: 4px;
+        background: #315e52;
+        color: #e7efeb;
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .status {
+        margin-top: 12px;
+        font-size: 12px;
+        color: #73a698;
+        min-height: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="card" id="options-form">
+      <h1>WebHound</h1>
+      <p id="intro">
+        Pick a Gemini or Grok model. Each provider keeps its own API key. The
+        selected model’s key is sent only to that provider.
+      </p>
+      <div class="field">
+        <label for="model">Model</label>
+        <select id="model"></select>
+        <p class="note" id="model-note"></p>
+      </div>
+      <div class="field" id="gemini-field">
+        <label for="gemini-key">Gemini API key</label>
+        <input id="gemini-key" type="password" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="field" id="grok-field">
+        <label for="grok-key">Grok API key</label>
+        <input id="grok-key" type="password" autocomplete="off" spellcheck="false" />
+      </div>
+      <button type="submit">Save</button>
+      <div class="status" id="status"></div>
+    </form>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

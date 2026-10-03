@@ -1,0 +1,29 @@
+{
+  "query": "best noise cancelling headphones for working from home",
+  "results": [
+    {
+      "title": "Sony WH-1000XM6 Review",
+      "url": "https://www.rtings.com/headphones/reviews/sony/wh-1000xm6",
+      "source": "rtings.com",
+      "snippet": "Excellent ANC and call quality for long desk sessions."
+    },
+    {
+      "title": "Bose QuietComfort Ultra Headphones Review",
+      "url": "https://www.soundguys.com/bose-quietcomfort-ultra-headphones-review/",
+      "source": "soundguys.com",
+      "snippet": "Comfortable over-ears with class-leading noise reduction."
+    },
+    {
+      "title": "The Best Noise-Cancelling Headphones",
+      "url": "https://www.nytimes.com/wirecutter/reviews/best-noise-cancelling-headphones/",
+      "source": "nytimes.com",
+      "snippet": "Buying guide covering office calls, comfort, and price."
+    },
+    {
+      "title": "Best Noise-Cancelling Headphones Under $300",
+      "url": "https://www.cnet.com/tech/mobile/best-noise-cancelling-headphones/",
+      "source": "cnet.com",
+      "snippet": "Value picks with reliable microphones."
+    }
+  ]
+}

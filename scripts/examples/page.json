@@ -1,0 +1,23 @@
+{
+  "title": "Why deep reading still matters",
+  "url": "https://www.theatlantic.com/example/deep-reading",
+  "host": "theatlantic.com",
+  "headings": [
+    { "id": "tld-section-0", "text": "The attention economy" },
+    { "id": "tld-section-1", "text": "What deep reading does" },
+    { "id": "tld-section-2", "text": "Rebuilding the habit" }
+  ],
+  "links": [
+    {
+      "title": "The Reading Brain in a Digital World",
+      "source": "thereader.mitpress.mit.edu",
+      "url": "https://thereader.mitpress.mit.edu/the-reading-brain-in-a-digital-world/"
+    },
+    {
+      "title": "How to Read a Book",
+      "source": "openlibrary.org",
+      "url": "https://openlibrary.org/works/OL1766541W/How_to_Read_a_Book"
+    }
+  ],
+  "text": "Sustained reading builds forms of attention that fast digital media cannot replace. Frequent context switching weakens retention. Small distraction-free rituals can rebuild attention. The attention economy rewards skimming. Deep reading recruits inference, empathy, and critical analysis."
+}
