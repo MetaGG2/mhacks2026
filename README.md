@@ -2,8 +2,6 @@
 
 Chrome extension that shows a compact reading summary and key points in the top-right of a page. Summary sentences link back to the source section. Responses stream in as they are generated.
 
-Design: [Figma — Extension Popup](https://www.figma.com/design/ULgF2fFK4yfLpmjMiVQCWl/MHACKS-2026?node-id=18-3)
-
 ## Load the extension
 
 1. Get an API key:
