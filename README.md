@@ -10,7 +10,6 @@ Chrome extension that shows a compact reading summary and key points in the top-
 2. Chrome → `chrome://extensions` → enable Developer mode → **Load unpacked** → select the `extension/` folder.
 3. Visit an article. In the WebHound panel, open **Settings** (⚙), paste the key and press **Confirm**. The key is checked with the provider, and the model list switches to that provider's models.
    - Gemini keys start with `AIza` (older Standard keys) or `AQ.` (the Auth keys AI Studio now issues). Grok keys start with `xai-`.
-   - A key in an unfamiliar format is checked with both Gemini and xAI, and WebHound uses whichever one accepts it.
 
 Click the toolbar icon to hide or show the panel.
 
