@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebHound — Fetch what matters. Browse less.</title>
+  <meta name="description" content="WebHound is a Chrome extension that summarizes the page you are on, answers follow-up questions, and stays out of the way.">
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-bar">
+      <a class="brand" href="#top">
+        <img src="logo.png" alt="" width="36" height="36">
+        <span>WebHound</span>
+      </a>
+      <a class="btn" href="https://github.com/MetaGG2/webhound/releases/download/v0.2.0/extension.zip">
+        <svg class="chrome" viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#EA4335" d="M24 4a20 20 0 0 1 17.3 10H24l-6.2-10.8A20 20 0 0 1 24 4z"/>
+          <path fill="#FBBC05" d="M41.3 14A20 20 0 0 1 34 40.3L24 24h17.3z"/>
+          <path fill="#34A853" d="M34 40.3A20 20 0 0 1 8.2 34.8L18.5 24 34 40.3z"/>
+          <path fill="#4285F4" d="M8.2 34.8A20 20 0 0 1 17.8 7.2L24 24 8.2 34.8z"/>
+          <circle cx="24" cy="24" r="8.2" fill="#fff"/>
+          <circle cx="24" cy="24" r="6" fill="#4285F4"/>
+        </svg>
+        Add to Chrome
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="brand brand-lg">
+            <img src="logo.png" alt="" width="72" height="72">
+            <span>WebHound</span>
+          </div>
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Your powerful web assistant</p>
+          <h1>Fetch what matters.<br>Browse less.</h1>
+          <p class="lede">Ask questions, summarize any page, and understand without breaking your flow.</p>
+          <a class="btn btn-lg" href="https://github.com/MetaGG2/webhound/releases/download/v0.2.0/extension.zip">
+            <svg class="chrome" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 4a20 20 0 0 1 17.3 10H24l-6.2-10.8A20 20 0 0 1 24 4z"/>
+              <path fill="#FBBC05" d="M41.3 14A20 20 0 0 1 34 40.3L24 24h17.3z"/>
+              <path fill="#34A853" d="M34 40.3A20 20 0 0 1 8.2 34.8L18.5 24 34 40.3z"/>
+              <path fill="#4285F4" d="M8.2 34.8A20 20 0 0 1 17.8 7.2L24 24 8.2 34.8z"/>
+              <circle cx="24" cy="24" r="8.2" fill="#fff"/>
+              <circle cx="24" cy="24" r="6" fill="#4285F4"/>
+            </svg>
+            Add WebHound to Chrome
+          </a>
+        </div>
+
+        <figure class="stage">
+          <svg class="art" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="18"/>
+              </filter>
+            </defs>
+            <rect width="600" height="600" fill="#4c1d95"/>
+            <g filter="url(#glow)">
+              <ellipse cx="70" cy="180" rx="180" ry="280" fill="#ff4d1a" transform="rotate(-18 70 180)"/>
+              <ellipse cx="210" cy="40" rx="260" ry="140" fill="#e11d48"/>
+              <ellipse cx="470" cy="80" rx="220" ry="160" fill="#7c3aed"/>
+              <ellipse cx="560" cy="250" rx="140" ry="200" fill="#c026d3"/>
+              <ellipse cx="500" cy="470" rx="220" ry="200" fill="#2563eb" transform="rotate(12 500 470)"/>
+              <ellipse cx="180" cy="520" rx="200" ry="140" fill="#22d3ee"/>
+              <ellipse cx="320" cy="300" rx="70" ry="240" fill="#fb923c" transform="rotate(28 320 300)"/>
+              <ellipse cx="250" cy="220" rx="90" ry="160" fill="#f43f5e" transform="rotate(-40 250 220)"/>
+            </g>
+          </svg>
+
+          <div class="window">
+            <div class="browser">
+              <span class="traffic" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+              <div class="url">example.com</div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <div class="panel-brand">
+                  <img src="logo.png" alt="" width="22" height="22">
+                  <strong>WebHound</strong>
+                </div>
+                <div class="panel-tools" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.4-6"/><path d="M20.5 4v5h-5"/></svg>
+                  <svg class="gear" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.6 2.4h4.8l.4 2.2c.5.2 1 .5 1.5.8l2-1.2 2.4 2.4-1.2 2c.3.5.6 1 .8 1.5l2.2.4v4.8l-2.2.4c-.2.5-.5 1-.8 1.5l1.2 2-2.4 2.4-2-1.2c-.5.3-1 .6-1.5.8l-.4 2.2H9.6l-.4-2.2a6 6 0 0 1-1.5-.8l-2 1.2-2.4-2.4 1.2-2a6 6 0 0 1-.8-1.5l-2.2-.4V8.5l2.2-.4c.2-.5.5-1 .8-1.5l-1.2-2 2.4-2.4 2 1.2c.5-.3 1-.6 1.5-.8l.4-2.2zM12 9.3a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4z"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg>
+                </div>
+              </div>
+              <div class="ask">
+                <span>Ask about this page...</span>
+                <span class="send" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M5 12h12M13 6l6 6-6 6"/></svg>
+                </span>
+              </div>
+              <p class="label">Summary</p>
+              <p class="summary">This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.</p>
+              <p class="label">Key points</p>
+              <ul class="points">
+                <li>Domain is for documentation examples without permission.</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="badge">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5 14.6 8.6 22 12l-7.4 3.4L12 22.5 9.4 15.4 2 12l7.4-3.4z"/></svg>
+            Summarize → ask follow ups
+          </p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="details" aria-labelledby="details-title">
+      <div class="wrap">
+        <h2 id="details-title">A panel in the corner, not another tab.</h2>
+        <dl class="feature-list">
+          <div>
+            <dt>Summarize</dt>
+            <dd>Sentences and key points stream in from the page you already have open. Each sentence links back to the section it came from.</dd>
+          </div>
+          <div>
+            <dt>Ask</dt>
+            <dd>The bar under the header answers questions about that page, including definitions and background, without sending you somewhere else.</dd>
+          </div>
+          <div>
+            <dt>Highlight</dt>
+            <dd>Select a passage to shorten it, reword it, or get a plain explanation. The page underneath stays put.</dd>
+          </div>
+          <div>
+            <dt>Skip private sites</dt>
+            <dd>Banks, health portals, payroll, and inboxes are left alone. Passwords are never read, and emails, phone numbers, and tokens are redacted.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-bar">
+      <div class="brand">
+        <img src="logo.png" alt="" width="28" height="28">
+        <span>WebHound</span>
+      </div>
+      <p>A reading panel for Chrome.</p>
+    </div>
+  </footer>
+</body>
+</html>
