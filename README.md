@@ -25,7 +25,7 @@ Click the toolbar icon to hide or show the panel.
   - Inputs, password and other secret-looking fields are never read or sent.
   - Emails, phone numbers and API tokens are redacted before anything is sent. Content containing card numbers, SSNs, IBANs or account numbers is especially vulnerable, so it is not sent by default.
   - Every privacy notice has a **Continue anyway** button. It applies to the current page until it is reloaded. Personal details are still redacted and password fields are still never sent.
-  - **April Fools mode** (Settings). Summaries, shortened text, rewordings, explanations and images become deliberately false, funny takes from a dog's point of view. Each one is labeled "April Fools mode" so it isn't mistaken for the real thing. Search-bar answers stay real.
+- **April Fools mode** (Settings). Summaries, shortened text, rewordings, explanations and images become deliberately false, funny takes from a dog's point of view. Each one is labeled "April Fools mode" so it isn't mistaken for the real thing. Search-bar answers stay real.
 
 ## Layout
 
